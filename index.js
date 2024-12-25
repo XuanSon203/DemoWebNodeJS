@@ -4,7 +4,6 @@ var methodOverride = require("method-override");
 var bodyParser = require("body-parser");
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
 //import file sys tem from config()
 const systemConfig = require("./config/system");
 // import file connect Database from File config();
@@ -22,7 +21,6 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin;
 const port  = process.env.PORT|| 3000;
 app.use(methodOverride("_method"));
 app.use(cookieParser("keyboard cat"));
-app.use(session({ cookie: { maxAge: 60000 } }));
 app.use(flash());
 app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
