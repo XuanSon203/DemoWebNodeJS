@@ -1,0 +1,36 @@
+extends ../../layout/default.pug
+include ../../mixins/alert.pug
+
+block main 
+    +alert-error("5000")
+    
+    h1(class="mb-4") Thêm mới sản phẩm 
+    form(action=`${prefixAdmin}/product/create` method="POST" id="create-product" enctype="multipart/form-data")
+        .mb-4
+            label(for="name") Tên sản phẩm 
+            input#name(type="text" name="name" class="form-control" placeholder="Nhập tiêu đề" )
+        .mb-4
+            label(for="category") Tiêu Đề 
+            input#category(type="text" name="category" class="form-control"  )
+        .mb-4 
+           
+            div(class ="form-ground" upload-image)
+        .mb-4
+            label(for="image") Ảnh
+            input#image.form-control-file(type="file" name="image" upload-image-input class="form-control" accept="image/*" )
+            img(src ="" upload-image-preview width="100" height="100")
+
+        .mb-4
+            label(for="price") Giá
+            input#price(type="number" name="price" class="form-control" placeholder="Nhập giá" min="0" )
+        .mb-4
+            label(for="description") Mô tả
+            textarea#description(name="description" class="form-control" rows="5" placeholder="Nhập mô tả sản phẩm" )
+        .mb-4
+            label(for="status") Trạng thái
+            select#status(name="status" class="form-control" reqired)
+                option(value="Hoạt động") Hoạt động 
+
+        button(type="submit" class="btn btn-primary mt-4") Thêm sản phẩm
+
+    script(src="/admin/js/product.js")

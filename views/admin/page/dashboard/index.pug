@@ -1,0 +1,38 @@
+extends ../../layout/default.pug
+
+block main
+    div.container.mt-5
+        h1.text-center.text-primary Admin Dashboard
+        p.text-center.text-muted Chào mừng bạn đến với bảng điều khiển quản trị viên.
+
+        //- Thông tin tổng quan
+        div.row.mt-4
+            div.col-md-4
+                div.card.text-white.bg-success.mb-3
+                    div.card-header Tổng Số Người Dùng
+                    div.card-body
+                        h5.card-title
+                        p.card-text Quản lý danh sách người dùng.
+            div.col-md-4
+                div.card.text-white.bg-warning.mb-3
+                    div.card-header Tổng Số Sản Phẩm
+                    div.card-body
+                        h5.card-title
+                        p.card-text Kiểm tra và quản lý sản phẩm.
+            div.col-md-4
+                div.card.text-white.bg-danger.mb-3
+                    div.card-header Tổng Số Đơn Hàng
+                    div.card-body
+                        h5.card-title
+                        p.card-text Xem và xử lý các đơn hàng.
+
+        //- Liên kết quản trị
+        div.row.mt-4
+            div.col-md-6
+                a.btn.btn-primary.btn-block(href=`${prefixAdmin}/users`) Quản lý Người Dùng
+            div.col-md-6
+                a.btn.btn-secondary.btn-block(href=`${prefixAdmin}/product`) Quản lý Sản Phẩm
+            div.col-md-6.mt-3
+                a.btn.btn-success.btn-block(href=`${prefixAdmin}/courses`) Quản lý  Khóa Học 
+            div.col-md-6.mt-3
+                a.btn.btn-danger.btn-block(href=`${prefixAdmin}/settings`) Cài Đặt Hệ Thống

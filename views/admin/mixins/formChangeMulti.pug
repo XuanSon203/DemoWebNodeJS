@@ -1,0 +1,22 @@
+mixin formChangeMulti(path)
+    form#containerForm(action=path method="POST" name="form-container" class="d-inline-block ms-3")
+        .d-flex.align-items-center.mt-3
+            .me-3
+                input(type="checkbox" name="checkAll" id="checkAll")
+                label(for="checkAll") Chọn tất cả
+                input(type="text" name="showIdCheckBox" id="showIdCheckBox" hidden)
+
+            select.text-center(
+                id="courseFilter" 
+                aria-label="Filter courses" 
+                style="width: auto;" 
+                name="actionForm"
+                required
+            )
+                option(value="" disabled selected) --Hành động--
+                option(value="delete-all") Xóa tất cả 
+                option(value="Hoạt động") Hoạt động 
+                option(value="Ngừng Hoạt Động") Ngừng hoạt động 
+                option(value="change-position") Thay đổi vị trí
+
+            button.btn.btn-primary.btn-sm.ms-3.btn-check-all-submit(type="submit") Áp dụng

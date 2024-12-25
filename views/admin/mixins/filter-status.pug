@@ -1,0 +1,13 @@
+mixin filterStatus(filterStatus)
+    form#filterForm(action="" method="GET" class="d-inline-block")
+        .btn-group.ms-3
+            if filterStatus && filterStatus.length
+                each item in filterStatus
+                    button.btn.btn-sm(
+                        name="status" 
+                        value=item.status
+                        class=`${item.class || ''} ${item.class ? 'bg-primary text-white' : 'bg-light text-dark'} hover:bg-primary hover:text-white transition-all duration-300 ease-in-out`
+                        type="submit"
+                    ) #{item.name}
+            else
+                span.text-muted No filters available

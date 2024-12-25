@@ -1,0 +1,38 @@
+extends ../../layout/default.pug
+
+block main
+  
+    h1(class="mb-4") Chi Tiết Sản Phẩm 
+    table(class="table table-bordered")
+        tbody
+            tr
+                td(class="fw-bold") Tên sản phẩm: 
+                td #{product.name}
+
+            tr
+                td(class="fw-bold") Tiêu đề: 
+                td #{product.category}
+
+            tr
+                td(class="fw-bold") Ảnh sản phẩm:
+                td
+                    img(src=product.image class="form-control" style="width: 100px; height: 100px;")
+
+            tr
+                td(class="fw-bold") Giá: 
+                td #{product.price} VND
+
+            tr
+                td(class="fw-bold") Vị trí: 
+                td #{product.position}
+
+            tr
+                td(class="fw-bold") Mô tả: 
+                td #{product.description}
+
+            tr
+                td(class="fw-bold") Trạng thái: 
+                td #{product.status}
+
+        .mb-4
+            a(href=`${prefixAdmin}/product/edit/${product._id}` class="btn btn-warning") Đặt sản phẩm

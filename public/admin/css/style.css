@@ -1,0 +1,44 @@
+/* Base success alert style (Bootstrap's default alert-success with customizations) */
+.alert-success {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: #d4edda;
+  color: #155724;
+  border-color: #c3e6cb;
+  position: absolute;
+  top: 100px;
+  right: 0px;
+  width: 400px;
+  height: 50px;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.alert-hidden {
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+}
+
+
+.alert-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+/* Close button chỉnh sửa */
+.close-alert {
+  position: absolute;
+  top: 10px; /* Khoảng cách từ trên */
+  right: 10px; /* Đặt nút sát bên phải */
+  cursor: pointer;
+  font-size: 16px;
+  color: #155724;
+  background: none;
+  border: none;
+  font-weight: bold;
+}
+.close-alert:hover {
+  color: #0b3f27; /* Màu thay đổi khi hover */
+}
