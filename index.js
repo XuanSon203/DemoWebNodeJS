@@ -4,6 +4,7 @@ var methodOverride = require("method-override");
 var bodyParser = require("body-parser");
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
+const session = require("express-session");
 //import file sys tem from config()
 const systemConfig = require("./config/system");
 // import file connect Database from File config();
@@ -27,6 +28,17 @@ app.set("view engine", "pug");
 app.use(express.static(`${__dirname}/public`));
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.json()); 
+app.use(
+  session({
+    secret: "your_secret_key", // Chuỗi bí mật để mã hóa session
+    resave: false,             // Không lưu session nếu không thay đổi
+    saveUninitialized: true,   // Lưu session dù không có dữ liệu
+    cookie: {
+      maxAge: 60000,           // Thời gian sống của session: 60 giây
+      secure: false,           // Đặt `true` nếu chạy HTTPS
+    },
+  })
+);
 
 // Router
 router(app);
