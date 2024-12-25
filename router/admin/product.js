@@ -1,25 +1,19 @@
 const express = require("express");
 // read  data file from system path
 const multer = require("multer");
-const strorageMulter = require("../../helpers/storageMulter");
+// const strorageMulter = require("../../helpers/storageMulter");
 const validate = require("../../validate/admin/product_validate");
 const router = express.Router();
-const cloudinary = require("cloudinary").v2;
-const streamifier = require("streamifier");
+const uploadCloud = require("../../middlewares/admin/uploadCloud.middleware");
 const upload = multer();
 
-  cloudinary.config({ 
-      cloud_name: 'drdhsrxch', 
-      api_key: '875412132991393', 
-      api_secret: '<your_api_secret>'
-  });
 const productController = require("../../controller/admin/ProductController");
 
 router.get("/details/:id", productController.details);
 
 router.patch(
   "/edit/:id",
-  upload.single("image"),
+  uploadCloud.upload,
   validate.createPost,
   productController.editPatch
 );
@@ -29,6 +23,7 @@ router.get("/edit/:id", productController.edit);
 router.post(
   "/create",
   upload.single("image"),
+  uploadCloud.upload,
   validate.createPost,
   productController.createPost
 );

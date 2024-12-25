@@ -34,10 +34,20 @@ module.exports.index = async (req, res) => {
       req.query,
       countProduts
     );
+    // Sort
+    let sort = {};
 
+    if (req.query.sortKey && req.query.sortValue) {
+      sort[req.query.sortKey] = req.query.sortValue; 
+    } else {
+      sort = { position: "desc" };
+    }
+    
+  
+    
     // Trường hợp đặc biệt: Nếu trang cuối có ít sản phẩm (ví dụ: 1 sản phẩm)
     const products = await Product.find(find || {})
-      .sort({ position: "desc" })
+      .sort(sort)
       .limit(objectPagination.limitItems) // Giới hạn số sản phẩm trên mỗi trang
       .skip(objectPagination.skipPages); // Bỏ qua số sản phẩm theo phân trang
     res.render("admin/page/product/index", {
@@ -158,12 +168,8 @@ module.exports.createPost = async (req, res) => {
     } else {
       req.body.position = parseInt(req.body.position);
     }
-    if (req.file) {
-      req.body.image = `/uploads/${req.file.filename}`;
-    }
 
     const product = new Product(req.body);
-    // Lưu sản phẩm vào cơ sở dữ liệu
     await product.save();
     req.flash("success", "Sản phẩm đã được tạo thành công.");
     res.redirect(`${systemConfig.prefixAdmin}/product`);
@@ -174,7 +180,7 @@ module.exports.createPost = async (req, res) => {
     res.status(500).render("admin/page/error", { error: err.message });
   }
 };
-module.exports.edit = async (req, res,next) => {
+module.exports.edit = async (req, res, next) => {
   try {
     console.log(req.params.id);
     const find = {
@@ -197,24 +203,23 @@ module.exports.editPatch = async (req, res) => {
     if (req.file) {
       req.body.image = `/uploads/${req.file.filename}`;
     }
-   const product =  await Product.updateOne(
+    const product = await Product.updateOne(
       {
         _id: req.params.id,
       },
       req.body
     );
     console.log(product);
-    
+
     req.flash("success", "Sản phẩm đã được cập nhật thành công");
     res.redirect(`${systemConfig.prefixAdmin}/product`);
 
     next();
   } catch (err) {
-  
     req.flash("error", "Có lỗi xảy ra khi cập nhật sản phẩm.");
   }
 };
-module.exports.details = async (req, res,next) => {
+module.exports.details = async (req, res, next) => {
   try {
     console.log(req.params.id);
     const find = {

@@ -22,23 +22,13 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin;
 const port  = process.env.PORT|| 3000;
 app.use(methodOverride("_method"));
 app.use(cookieParser("keyboard cat"));
+app.use(session({ cookie: { maxAge: 60000 } }));
 app.use(flash());
 app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
 app.use(express.static(`${__dirname}/public`));
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.json()); 
-app.use(
-  session({
-    secret: "your_secret_key", // Chuỗi bí mật để mã hóa session
-    resave: false,             // Không lưu session nếu không thay đổi
-    saveUninitialized: true,   // Lưu session dù không có dữ liệu
-    cookie: {
-      maxAge: 60000,           // Thời gian sống của session: 60 giây
-      secure: false,           // Đặt `true` nếu chạy HTTPS
-    },
-  })
-);
 
 // Router
 router(app);

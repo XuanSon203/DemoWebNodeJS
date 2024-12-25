@@ -1,0 +1,9 @@
+mixin sort()
+ div(sort)
+      select#sortOptions.bg-white.border-2.border-gray-300.px-4.py-2.rounded(name="sort" sort-select class="form-control")
+        option(value="") Chon 
+        option(value="price_asc") Giá (Tăng dần)
+        option(value="price_desc") Giá (Giảm dần)
+        option(value="name_asc") Tên (A-Z)
+        option(value="name_desc") Tên (Z-A)
+      button(class="btn btn-danger mt-2" type="button" sort-clear ) Clear

@@ -5,91 +5,101 @@ include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/formChangeMulti.pug
 include ../../mixins/alert.pug
+include ../../mixins/sort.pug
 
 block main
-    +alert-succses("5000")
-    +boxHeader('Danh Sách Sản Phẩm')
+  +alert-succses("5000")
+  +boxHeader('Danh Sách Sản Phẩm')
 
-    .container.mt-4
-        h1.text-center.text-primary Sản Phẩm
+  .container.mt-4
+    h1.text-center.text-primary Sản Phẩm
 
-        // Link to trash
-        a(href="/me/trash/courses" class="text-muted") Thùng rác (#{countDelete})
+    // Link to trash
+    a(href="/me/trash/courses" class="text-muted") Thùng rác (#{countDelete})
 
-        // Form lọc trạng thái
-        +filterStatus(filterStatus)
+    // Form lọc trạng thái
+    +filterStatus(filterStatus)
 
-        // Form tìm kiếm
-        +search(keyword)
+    // Form tìm kiếm
+    +search(keyword)
 
-        // Form chính xử lý hành động
-        +formChangeMulti(`${prefixAdmin}/product/handle-form-actions?_method=PATCH`)    
+    // Form chính xử lý hành động
+    +formChangeMulti(`${prefixAdmin}/product/handle-form-actions?_method=PATCH`)    
 
-        // Kiểm tra sản phẩm
-        if products.length === 0
-            .alert.alert-warning.text-center
-                p Bạn chưa đăng sản phẩm nào.
-                a(href="/product/create") Đăng sản phẩm
-        a(
-            href=`${prefixAdmin}/product/create`
-            class="btn btn-outline-success float-right"
-        ) + Thêm mới 
-        // Danh sách sản phẩm
-        table.table
-            thead
-                tr
-                    th(scope="col") Chọn
-                    th(scope="col") STT
-                    th(scope="col") Tên sản phẩm
-                    th(scope="col") Hình ảnh
-                    th(scope="col") Giá
-                    th(scope="col") Mô Tả
-                    th(scope="col") Trạng thái
-                    th(scope="col") Vị Trí
-                    th(scope="col") Hành động
-            tbody.table-group-divider
-                each item, index in products
-                    tr
-                        td
-                            input.check-box-item(type="checkbox" name="selectedProducts[]" value=`${item._id}`)
-                        th(scope="row") #{index + 1}
-                        td #{item.name}
-                        td
-                            if item.image
-                                img(
-                                    src=item.image 
-                                    alt="Product Image" 
-                                    class="w-16 h-16 object-cover rounded-md"
-                                    width:50 ;
-                                    height:50;
-                                )
-                            else
-                                span.text-muted Không có hình ảnh
-                        td #{item.price}
-                        td #{item.description}
-                        td
-                            if item.status == "Hoạt động"
-                                button.btn.btn-success(btn-change-status data-status =item.status data-id=item.id) #{item.status}
-                            else
-                                button.btn.btn-danger(btn-change-status data-status=item.status data-id=item.id) #{item.status}
-                        td 
-                            input(type="number",value= item.position, style = "width: 60px" min="1" name="position")
-                        td
-                            a.btn.btn-secondary.btn-sm(href=`${prefixAdmin}/product/details/${item._id}`) Chi Tiết
-                            a.btn.btn-primary.btn-sm(href=`${prefixAdmin}/product/edit/${item._id}`) Sửa
-                            button.btn.btn-danger.btn-sm.ml-2(
-                                data-bs-toggle="modal" 
-                                data-bs-target="#deleteModal"
-                                button-delete
-                                data-id=`${item._id}` 
-                                data-name=`${item.name}` 
-                            ) Xóa
+    // Kiểm tra sản phẩm
+    if products.length === 0
+      .alert.alert-warning.text-center
+        p Bạn chưa đăng sản phẩm nào.
+        a(href="/product/create") Đăng sản phẩm
 
+    a(
+      href=`${prefixAdmin}/product/create`
+      class="btn btn-outline-success float-right"
+    ) + Thêm mới 
 
-                        form#deleteCourseForm(method="POST" action="" data-path=`${prefixAdmin}/product/delete` name="delete-courses-form")
-                            input(type="hidden" name="courseId" id="courseId")
-                            input(type="hidden" name="courseName" id="courseName")
+  // Thanh lọc và sắp xếp sản phẩm
+  .flex.justify-between.mb-4
+    .flex.items-center
+      label(for="sortOptions" class="text-lg font-semibold mr-4") Sắp xếp theo:
+    .col-4
+     +sort()
+  // Danh sách sản phẩm
+  table.table
+    thead
+      tr
+        th(scope="col") Chọn
+        th(scope="col") STT
+        th(scope="col") Tên sản phẩm
+        th(scope="col") Hình ảnh
+        th(scope="col") Giá
+        th(scope="col") Mô Tả
+        th(scope="col") Trạng thái
+        th(scope="col") Vị Trí
+        th(scope="col") Hành động
+    tbody.table-group-divider
+      each item, index in products
+        tr
+          td
+            input.check-box-item(type="checkbox" name="selectedProducts[]" value=`${item._id}`)
+          th(scope="row") #{index + 1}
+          td #{item.name}
+          td
+            if item.image
+              img(
+                src=item.image 
+                alt="Product Image" 
+                class="w-16 h-16 object-cover rounded-md"
+                width:50 ;
+                height:50;
+              )
+            else
+              span.text-muted Không có hình ảnh
+          td #{item.price}
+          td #{item.description}
+          td
+            if item.status == "Hoạt động"
+              button.btn.btn-success(btn-change-status data-status =item.status data-id=item.id) #{item.status}
+            else
+              button.btn.btn-danger(btn-change-status data-status=item.status data-id=item.id) #{item.status}
+          td 
+            input(type="number",value= item.position, style = "width: 60px" min="1" name="position")
+          td
+            a.btn.btn-secondary.btn-sm(href=`${prefixAdmin}/product/details/${item._id}`) Chi Tiết
+            a.btn.btn-primary.btn-sm(href=`${prefixAdmin}/product/edit/${item._id}`) Sửa
+            button.btn.btn-danger.btn-sm.ml-2(
+              data-bs-toggle="modal" 
+              data-bs-target="#deleteModal"
+              button-delete
+              data-id=`${item._id}` 
+              data-name=`${item.name}` 
+            ) Xóa
 
-    +pagination(pagination)
-    form(action="", method="post" id="form-change-status"
-    data-path=`${prefixAdmin}/product/change-status/`)
+          form#deleteCourseForm(method="POST" action="" data-path=`${prefixAdmin}/product/delete` name="delete-courses-form")
+            input(type="hidden" name="courseId" id="courseId")
+            input(type="hidden" name="courseName" id="courseName")
+
+  +pagination(pagination)
+
+  form(action="", method="post" id="form-change-status"
+  data-path=`${prefixAdmin}/product/change-status/`)
+
