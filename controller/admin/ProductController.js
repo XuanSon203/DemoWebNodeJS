@@ -200,9 +200,7 @@ module.exports.edit = async (req, res, next) => {
 // Edit Patch
 module.exports.editPatch = async (req, res) => {
   try {
-    if (req.file) {
-      req.body.image = `/uploads/${req.file.filename}`;
-    }
+  
     const product = await Product.updateOne(
       {
         _id: req.params.id,

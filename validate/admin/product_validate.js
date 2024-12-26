@@ -1,5 +1,4 @@
 module.exports.createPost = (req, res, next) => {
-  // Kiểm tra dữ liệu bắt buộc
   if (!req.body.name || !req.body.price) {
     req.flash("error", "Tên sản phẩm và giá là bắt buộc.");
     return res.redirect("back");

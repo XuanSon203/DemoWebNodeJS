@@ -1,7 +1,5 @@
 const express = require("express");
-// read  data file from system path
 const multer = require("multer");
-// const strorageMulter = require("../../helpers/storageMulter");
 const validate = require("../../validate/admin/product_validate");
 const router = express.Router();
 const uploadCloud = require("../../middlewares/admin/uploadCloud.middleware");
@@ -10,16 +8,13 @@ const upload = multer();
 const productController = require("../../controller/admin/ProductController");
 
 router.get("/details/:id", productController.details);
-
 router.patch(
   "/edit/:id",
   uploadCloud.upload,
   validate.createPost,
   productController.editPatch
 );
-
 router.get("/edit/:id", productController.edit);
-
 router.post(
   "/create",
   upload.single("image"),

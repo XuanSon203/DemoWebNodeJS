@@ -1,0 +1,28 @@
+extends ../../layout/default.pug
+
+block main 
+    
+    h1(class="mb-4") Thêm mới danh mục  
+    form(action=`${prefixAdmin}/product-category/create` method="POST" id="create-category" enctype="multipart/form-data")
+        
+        .mb-4
+            label(for="title") Tiêu đề 
+            input#category(type="text" name="title" class="form-control"  )
+        
+        .mb-4
+            label(for="image") Hình ảnh 
+            input#category(type="file" name="image" class="form-control"  )
+        .mb-4
+            label(for="parent_id") Danh mục cha 
+            input#category(type="text" name="parent_id" class="form-control"  )
+        .mb-4
+            label(for="description") Mô tả
+            textarea#description(name="description" class="form-control" rows="5" placeholder="Nhập mô tả danh mục " )
+        .mb-4
+            label(for="status") Trạng thái
+            select#status(name="status" class="form-control" reqired)
+                option(value="Hoạt động") Hoạt động 
+
+        button(type="submit" class="btn btn-primary mt-4") Thêm danh mục 
+
+    script(src="/admin/js/product.js")
