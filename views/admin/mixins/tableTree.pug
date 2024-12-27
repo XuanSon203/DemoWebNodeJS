@@ -1,0 +1,35 @@
+mixin tableTree(items, level=1)
+  each item, index in items
+    - const prefix = Array(level).join("--")
+    
+    tr
+      td
+        input.check-box-item(type="checkbox" name="selectedProducts[]" value=`${item._id}`)
+      th(scope="row") #{item.index}
+      td #{prefix} #{item.title}
+      td
+        if item.image
+          img(src=item.image, alt="Product Image", class="w-16 h-16 object-cover rounded-md", width="50", height="50")
+        else
+          span.text-muted Không có hình ảnh
+      td #{item.price}
+      td !{item.description}
+      td
+        if item.status == "Hoạt động"
+          button.btn.btn-success(btn-change-status data-status=item.status data-id=item.id) #{item.status}
+        else
+          button.btn.btn-danger(btn-change-status data-status=item.status data-id=item.id) #{item.status}
+      td
+        input(type="number", value=item.position, style="width: 60px", min="1", name="position")
+      td
+        a.btn.btn-secondary.btn-sm(href=`${prefixAdmin}/product-category/details/${item._id}`) Chi Tiết
+        a.btn.btn-primary.btn-sm(href=`${prefixAdmin}/product-category/edit/${item._id}`) Sửa
+        button.btn.btn-danger.btn-sm.ml-2(
+          data-bs-toggle="modal"
+          data-bs-target="#deleteModal"
+          button-delete
+          data-id=`${item._id}`
+          data-name=`${item.name}`
+        ) Xóa
+    if item.children && item.children.length > 0
+      +tableTree(item.children, level + 1)

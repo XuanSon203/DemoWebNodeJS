@@ -1,12 +1,18 @@
 const ProductCategory = require("../../models/productCategoryModels");
 const systemConfig = require("../../config/system");
-
+const createTreeHelper = require("../../helpers/createTree");
 module.exports.index = async (req, res) => {
   try {
+    let find ={
+      deleted: false,
+    }
+    
+  
     const category = await ProductCategory.find({});
-    console.log(category);
+    const newCategory = createTreeHelper.tree(category);
+    
     res.render("admin/page/category/index.pug", {
-      category,
+      category: newCategory
     });
   } catch (err) {
     console.error("Error retrieving categories:", err.message);
@@ -14,8 +20,20 @@ module.exports.index = async (req, res) => {
 };
 module.exports.create = async (req, res) => {
   try {
-    res.render("admin/page/category/create.pug", {});
-  } catch (err) {}
+    let find = {
+      deleted: false,
+    };
+    
+  
+    
+    const category = await ProductCategory.find(find);
+    
+    const newCategory = createTreeHelper.tree(category);
+    console.log(newCategory);
+        res.render("admin/page/category/create.pug", { category:newCategory });
+  } catch (err) {
+    console.error("Error retrieving categories:", err.message);
+  }
 };
 module.exports.createPost = async (req, res) => {
   try {

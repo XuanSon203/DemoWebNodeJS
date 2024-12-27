@@ -48,8 +48,8 @@ module.exports.index = async (req, res) => {
     // Trường hợp đặc biệt: Nếu trang cuối có ít sản phẩm (ví dụ: 1 sản phẩm)
     const products = await Product.find(find || {})
       .sort(sort)
-      .limit(objectPagination.limitItems) // Giới hạn số sản phẩm trên mỗi trang
-      .skip(objectPagination.skipPages); // Bỏ qua số sản phẩm theo phân trang
+      .limit(objectPagination.limitItems) 
+      .skip(objectPagination.skipPages); 
     res.render("admin/page/product/index", {
       products,
       filterStatus,

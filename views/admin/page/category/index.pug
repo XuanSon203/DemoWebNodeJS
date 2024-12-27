@@ -1,5 +1,6 @@
 extends ../../layout/default.pug
 include ../../mixins/box-header.pug
+include ../../mixins/tableTree.pug
 
 block main
   +boxHeader('Danh Sách danh mục')
@@ -24,43 +25,7 @@ block main
           th(scope="col") Hành động
 
       tbody.table-group-divider
-        each item, index in category
-          tr
-            td
-              input.check-box-item(type="checkbox" name="selectedProducts[]" value=`${item._id}`)
-            th(scope="row") #{index + 1}
-            td #{item.title}
-            td
-              if item.image
-                img(
-                  src=item.image
-                  alt="Product Image"
-                  class="w-16 h-16 object-cover rounded-md"
-                  width="50"
-                  height="50"
-                )
-              else
-                span.text-muted Không có hình ảnh
-            td #{item.price}
-            td #{item.description}
-            td
-              if item.status == "Hoạt động"
-                button.btn.btn-success(btn-change-status data-status=item.status data-id=item.id) #{item.status}
-              else
-                button.btn.btn-danger(btn-change-status data-status=item.status data-id=item.id) #{item.status}
-            td
-              input(type="number" value=item.position, style="width: 60px" min="1" name="position")
-            td
-              a.btn.btn-secondary.btn-sm(href=`${prefixAdmin}/product-category/details/${item._id}`) Chi Tiết
-              a.btn.btn-primary.btn-sm(href=`${prefixAdmin}/product-category/edit/${item._id}`) Sửa
-              button.btn.btn-danger.btn-sm.ml-2(
-                data-bs-toggle="modal"
-                data-bs-target="#deleteModal"
-                button-delete
-                data-id=`${item._id}`
-                data-name=`${item.name}`
-              ) Xóa
-
+        +tableTree(category)
           form#deleteCourseForm(method="POST" action="" data-path=`${prefixAdmin}/product-category/delete` name="delete-courses-form")
             input(type="hidden" name="courseId" id="courseId")
             input(type="hidden" name="courseName" id="courseName")

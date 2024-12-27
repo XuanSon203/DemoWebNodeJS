@@ -1,28 +1,35 @@
 extends ../../layout/default.pug
+include ../../mixins/selectTree.pug
 
 block main 
-    
     h1(class="mb-4") Thêm mới danh mục  
     form(action=`${prefixAdmin}/product-category/create` method="POST" id="create-category" enctype="multipart/form-data")
         
         .mb-4
             label(for="title") Tiêu đề 
-            input#category(type="text" name="title" class="form-control"  )
-        
+            input#title(type="text" name="title" class="form-control")
+
         .mb-4
             label(for="image") Hình ảnh 
-            input#category(type="file" name="image" class="form-control"  )
+            input#image(type="file" name="image" class="form-control")
+
         .mb-4
             label(for="parent_id") Danh mục cha 
-            input#category(type="text" name="parent_id" class="form-control"  )
+            select#parent_id(name="parent_id" class="form-control")
+                option(value=""  selected) Chọn danh mục
+                if category
+                    +selectTree(category)
+
         .mb-4
             label(for="description") Mô tả
-            textarea#description(name="description" class="form-control" rows="5" placeholder="Nhập mô tả danh mục " )
+            textarea#description(name="description" class="form-control" rows="5" placeholder="Nhập mô tả danh mục")
+
         .mb-4
             label(for="status") Trạng thái
-            select#status(name="status" class="form-control" reqired)
+            select#status(name="status" class="form-control" required)
                 option(value="Hoạt động") Hoạt động 
+                option(value="Không hoạt động") Không hoạt động
 
-        button(type="submit" class="btn btn-primary mt-4") Thêm danh mục 
+        button(type="submit" class="btn btn-primary mt-4") Thêm danh mục
 
     script(src="/admin/js/product.js")
