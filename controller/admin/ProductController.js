@@ -3,6 +3,9 @@ const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
 const systemConfig = require("../../config/system");
+const createTreeHelper = require("../../helpers/createTree");
+const ProductCategory = require("../../models/productCategoryModels");
+
 module.exports.index = async (req, res) => {
   try {
     let find = { deleted: false };
@@ -38,18 +41,18 @@ module.exports.index = async (req, res) => {
     let sort = {};
 
     if (req.query.sortKey && req.query.sortValue) {
-      sort[req.query.sortKey] = req.query.sortValue; 
+      sort[req.query.sortKey] = req.query.sortValue;
     } else {
       sort = { position: "desc" };
     }
-    
-  
-    
+
+
+
     // Trường hợp đặc biệt: Nếu trang cuối có ít sản phẩm (ví dụ: 1 sản phẩm)
     const products = await Product.find(find || {})
       .sort(sort)
-      .limit(objectPagination.limitItems) 
-      .skip(objectPagination.skipPages); 
+      .limit(objectPagination.limitItems)
+      .skip(objectPagination.skipPages);
     res.render("admin/page/product/index", {
       products,
       filterStatus,
@@ -153,12 +156,22 @@ module.exports.deleteItem = async (req, res) => {
 // Get
 module.exports.create = async (req, res) => {
   try {
-    res.render("admin/page/product/create");
+    // Lấy danh mục không bị xóa
+    // const category = await ProductCategory.findOne({
+    //   deleted: false
+    // });
+    // const newCategory = createTreeHelper.tree(category);
+    // console.log(newCategory);
+
+    res.render("admin/page/product/create", {
+      // category: newCategory
+    });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({ message: err.message });
   }
 };
+
 // Post
 module.exports.createPost = async (req, res) => {
   try {
@@ -169,10 +182,14 @@ module.exports.createPost = async (req, res) => {
       req.body.position = parseInt(req.body.position);
     }
 
-    const product = new Product(req.body);
+
+
     await product.save();
+
     req.flash("success", "Sản phẩm đã được tạo thành công.");
-    res.redirect(`${systemConfig.prefixAdmin}/product`);
+    res.redirect(`${systemConfig.prefixAdmin}/product`, {
+
+    });
   } catch (err) {
     console.error(err);
     // Trả lỗi nếu có vấn đề xảy ra trong quá trình lưu
@@ -200,7 +217,7 @@ module.exports.edit = async (req, res, next) => {
 // Edit Patch
 module.exports.editPatch = async (req, res) => {
   try {
-  
+
     const product = await Product.updateOne(
       {
         _id: req.params.id,

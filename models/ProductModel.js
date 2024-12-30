@@ -13,6 +13,10 @@ const productSchema = new Schema(
     price: Number,
     description: String,
     status: String,
+    product_category_id:{
+      type:String,
+      default:""
+    },
     image: String,
     deleted: { type: Boolean, default: false },
     deletedAt: Date,
