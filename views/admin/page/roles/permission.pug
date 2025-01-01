@@ -1,0 +1,51 @@
+extends ../../layout/default.pug
+
+block main
+  .container.mt-4
+    h1.text-center.text-primary Role
+    h1.text-2xl.font-bold.mb-5 Quản lý quyền truy cập
+    
+    form(method="post", action="/updatePermissions")
+      if records
+        table.border-collapse.border.border-gray-400.w-full(table-permission)
+          thead.bg-gray-200
+            tr
+              th.border.border-gray-400.px-4.py-2 Tính năng
+              each item in records
+                th.border.border-gray-400.px-4.py-2 #{item.title}
+          tbody
+            //- Danh mục sản phẩm
+            tr
+              td.border.border-gray-400.px-4.py-2 Danh mục sản phẩm
+              each item in records
+                td.border.border-gray-400.px-4.py-2.text-center
+                   input(type="text", data-name=`${item.title}_category`, value = item.id class="w-full p-2 border rounded")
+            //- Xem
+            tr
+              td.border.border-gray-400.px-4.py-2 Xem
+              each item in records
+                td.border.border-gray-400.px-4.py-2.text-center
+                  input(type="checkbox", data-name=`${item.title}_view`, checked=item.view)
+            //- Thêm mới
+            tr
+              td.border.border-gray-400.px-4.py-2 Thêm mới
+              each item in records
+                td.border.border-gray-400.px-4.py-2.text-center
+                  input(type="checkbox", data-name=`${item.title}_add`, checked=item.add)
+            //- Chỉnh sửa
+            tr
+              td.border.border-gray-400.px-4.py-2 Chỉnh sửa
+              each item in records
+                td.border.border-gray-400.px-4.py-2.text-center
+                  input(type="checkbox", data-name=`${item.title}_edit`, checked=item.edit)
+            //- Xóa
+            tr
+              td.border.border-gray-400.px-4.py-2 Xóa
+              each item in records
+                td.border.border-gray-400.px-4.py-2.text-center
+                  input(type="checkbox", data-name=`${item.title}_delete`, checked=item.delete)
+        .mt-5
+          button.bg-success.text-white.px-4.py-2.rounded(type="submit" btn-submit) Cập nhật
+      else
+        p.text-center.text-danger Không có dữ liệu để hiển thị
+    script(src="/admin/js/role.js") 

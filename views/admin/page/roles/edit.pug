@@ -1,0 +1,30 @@
+extends ../../layout/default.pug
+
+block main
+
+  .container.mt-4
+    h1.text-center.text-primary Thêm Mới Vai Trò
+
+    form(
+      action=`${prefixAdmin}/roles/edit/${data.id}?_method=PATCH`
+      method="POST"
+    )
+      .form-group
+        label(for="title") Nhóm quyền
+        input#title.form-control(
+          type="text"
+          name="title"
+         value=data.title
+        )
+
+      .form-group
+        label(for="description") Mô Tả
+        input#description.form-control(
+          name="description"
+          rows="4"
+         value=data.description
+        )
+
+      .form-group.mt-3
+        button.btn.btn-success(type="submit") Tạo mới
+        a.btn.btn-outline-secondary.ml-2(href=`${prefixAdmin}/roles`) Hủy

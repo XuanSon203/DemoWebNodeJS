@@ -28,8 +28,11 @@ header.navbar.navbar-dark.bg-dark
                         li
                             a.dropdown-item(href=`${prefixAdmin}/product-category/`) Quản lý danh mục 
                         li
-                            a.dropdown-item(href="/me/stored/courses") Khóa học của tôi 
+                            a.dropdown-item(href=`${prefixAdmin}/roles`) Danh Sách Nhóm Quyền 
+                            a.dropdown-item(href=`${prefixAdmin}/roles/permission`) Phân Quyền 
                         li
                             hr.dropdown-divider
                         li
-                            a.dropdown-item(href="#") Đăng xuất  
+                            a.dropdown-item(href=`${prefixAdmin}/account`) Quản lý tài khoản
+                        li
+                            a.dropdown-item(href=`${prefixAdmin}/auth/logout`) Đăng xuất  

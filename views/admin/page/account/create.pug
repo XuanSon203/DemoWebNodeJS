@@ -1,0 +1,73 @@
+extends ../../layout/default.pug
+
+block main
+
+  .container.mt-4
+    h1.text-center.text-primary Thêm Mới Tài Khoản
+
+    form(
+      action=`${prefixAdmin}/account/create`
+      method="POST"
+      enctype="multipart/form-data" 
+    )
+      .form-group
+        label(for="fullName") Họ và Tên
+        input#fullName.form-control(
+          type="text"
+          name="fullName"
+          required
+          placeholder="Nhập họ và tên"
+        )
+
+      .form-group
+        label(for="password") Mật khẩu
+        input#password.form-control(
+          type="password"
+          name="password"
+          required
+          placeholder="Nhập mật khẩu"
+        )
+
+      .form-group
+        label(for="email") Email
+        input#email.form-control(
+          type="email"
+          name="email"
+          required
+          placeholder="Nhập email"
+        )
+
+      .form-group
+        label(for="phone") Số điện thoại
+        input#phone.form-control(
+          type="text"
+          name="phone"
+          required
+          placeholder="Nhập số điện thoại"
+        )
+
+      .form-group
+        label(for="avatar") Ảnh đại diện
+        input#avatar.form-control(
+          type="file"
+          name="avatar"
+          accept="image/*"
+        )
+    
+      .form-group
+        label(for="role_id") Quyền
+        select#role.form-control(name="role_id" required)
+          option(value="" disabled selected) -- Chọn quyền --
+            each item in roles
+                option(value=item.id) #{item.title}
+          
+
+      .form-group
+        label(for="status") Trạng thái
+        select#status.form-control(name="status" required)
+          option(value="active") Kích hoạt
+          option(value="inactive") Vô hiệu hóa
+
+      .form-group.mt-3
+        button.btn.btn-success(type="submit") Tạo mới
+        a.btn.btn-outline-secondary.ml-2(href=`${prefixAdmin}/accountaccount`) Hủy

@@ -1,6 +1,6 @@
 module.exports.index = (req,res)=> {
     try{
-        res.render("admin/page/dashboard/index",{
+        res.render("admin/page/roles/index",{
 
         })
     }catch(err){
