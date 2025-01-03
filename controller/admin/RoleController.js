@@ -39,7 +39,7 @@ module.exports.createPost = async (req, res) => {
         let find = { deleted: false };
         const records = await Role.find(find);
 
-        res.render(`${admin}/page/roles/index`, {
+        res.render(`admin/page/roles/index`, {
             records,
         });
     } catch (err) {

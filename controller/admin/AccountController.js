@@ -106,7 +106,7 @@ module.exports.editPatch = async (req, res) => {
             await Account.updateOne({ _id: id },
                 req.body
             );
-            res.redirect("back");
+            res.redirect("/admin/account");
             console.log(req.body);
         }
        

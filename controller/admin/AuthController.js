@@ -3,13 +3,16 @@ var md5 = require('md5');
 
 module.exports.login = (req, res) => {
     try {
-        res.render("admin/page/auth/login", {
-
-        })
+        // Check token
+        console.log(req.cookies.token);
+        if (req.cookies.token) {
+            res.render("admin/page/dashboard/index");
+        } else {
+            res.render("admin/page/auth/login");
+        }
     } catch (err) {
         console.log(err);
     }
-
 };
 module.exports.loginPost = async (req, res) => {
     try {
@@ -33,7 +36,6 @@ module.exports.loginPost = async (req, res) => {
             res.redirect("back");
         }
         res.cookie("token", user.token);
-        console.log(password)
         res.render("admin/page/dashboard/index", {
 
         });
