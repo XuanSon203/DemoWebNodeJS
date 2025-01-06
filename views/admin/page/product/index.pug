@@ -8,6 +8,7 @@ include ../../mixins/alert.pug
 include ../../mixins/sort.pug
 
 block main
+ if(role.permissions.includes("product-category_view"))
   +alert-succses("5000")
   +boxHeader('Danh Sách Sản Phẩm')
 

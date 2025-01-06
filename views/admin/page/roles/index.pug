@@ -1,28 +1,55 @@
 extends ../../layout/default.pug
 
 block main
-  .container.mt-4
-    h1.text-center.text-primary Role
-    a(
-      href=`${prefixAdmin}/roles/create`
-      class="btn btn-outline-success float-right"
-    ) Thêm mới
+  if (role.permissions.includes("product-category_view"))
+    .container.mt-4
+      //- Page Title
+      h1.text-center.text-primary Role
 
-    table.table
-      thead
-        tr
-          th(scope="col") STT
-          th(scope="col") Nhóm quyền
-          th(scope="col") Mô Tả
-          th(scope="col") Hành động
+      //- Add New Role Button (Visible if user has 'product-category_add' permission)
+      if (role.permissions.includes("product-category_add"))
+        a.btn.btn-outline-success.float-right(
+          href=`${prefixAdmin}/roles/create`
+        ) Thêm mới
 
-      tbody.table-group-divider
-        each record, index in records
+      //- Table for Role Management
+      table.table
+        thead
           tr
-            td= index + 1 
-            td= record.title 
-            td= record.description 
-            td
-              a.btn.btn-outline-primary(href=`${prefixAdmin}/roles/details/${record._id}`) Chi tiết
-              a.btn.btn-outline-primary(href=`${prefixAdmin}/roles/edit/${record._id}`) Sửa
-              a.btn.btn-outline-danger.ml-2(href=`${prefixAdmin}/roles/delete/${record._id}`) Xóa
+            th(scope="col") STT
+            th(scope="col") Nhóm quyền
+            th(scope="col") Mô Tả
+            th(scope="col") Hành động
+
+        tbody.table-group-divider
+          each record, index in records
+            tr
+              //- Index Column
+              td= index + 1
+              
+              //- Role Title
+              td= record.title
+              
+              //- Role Description
+              td= record.description
+              
+              //- Action Buttons
+              td
+                //- Details Button
+                a.btn.btn-outline-primary(
+                  href=`${prefixAdmin}/roles/details/${record._id}`
+                ) Chi tiết
+
+                //- Edit Button (Visible if user has 'product-category_edit' permission)
+                if (role.permissions.includes("product-category_edit"))
+                  a.btn.btn-outline-primary.ml-2(
+                    href=`${prefixAdmin}/roles/edit/${record._id}`
+                  ) Sửa
+
+                //- Delete Button (Visible if user has 'product-category_delete' permission)
+                if (role.permissions.includes("product-category_delete"))
+                  a.btn.btn-outline-danger.ml-2(
+                    href=`${prefixAdmin}/roles/delete/${record._id}`
+                  ) Xóa
+  else
+    h1 Bạn không có quyền truy cập 

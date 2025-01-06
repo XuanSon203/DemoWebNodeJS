@@ -36,9 +36,7 @@ module.exports.loginPost = async (req, res) => {
             res.redirect("back");
         }
         res.cookie("token", user.token);
-        res.render("admin/page/dashboard/index", {
-
-        });
+        return res.redirect('/admin/dashboard');
     } catch (err) {
         console.log(err);
     }

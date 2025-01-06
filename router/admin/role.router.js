@@ -6,7 +6,8 @@ const roleController = require('../../controller/admin/RoleController');
 
 
 
-router.get("/permission",roleController.permission);
+router.patch("/permissions",roleController.permissionPatch);
+router.get("/permissions",roleController.permission);
 router.patch("/edit/:id",roleController.editPatch);
 router.get("/edit/:id",roleController.edit);
 router.post("/create",roleController.createPost);

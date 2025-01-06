@@ -5,7 +5,7 @@ header.navbar.navbar-dark.bg-dark
         nav
             ul.nav
                 li.nav-item
-                    a.nav-link(href="/") Home
+                    a.nav-link(href=`${prefixAdmin}/dashboard`) Home
                 li.nav-item
                     a.nav-link(href="/Đăng Khóa Học") Link
                 li.nav-item.dropdown
@@ -25,11 +25,14 @@ header.navbar.navbar-dark.bg-dark
                     ul.dropdown-menu
                         li
                             a.dropdown-item(href="#") Action
-                        li
-                            a.dropdown-item(href=`${prefixAdmin}/product-category/`) Quản lý danh mục 
+                        
+                        if(role.permissions.includes("product-category_view"))
+                            li
+                                a.dropdown-item(href=`${prefixAdmin}/product-category/`) Quản lý danh mục 
                         li
                             a.dropdown-item(href=`${prefixAdmin}/roles`) Danh Sách Nhóm Quyền 
-                            a.dropdown-item(href=`${prefixAdmin}/roles/permission`) Phân Quyền 
+
+                            a.dropdown-item(href=`${prefixAdmin}/roles/permissions`) Phân Quyền 
                         li
                             hr.dropdown-divider
                         li

@@ -1,35 +1,86 @@
-mixin tableTree(items, level=1)
+mixin tableTree(items, level = 1)
   each item, index in items
     - const prefix = Array(level).join("--")
     
     tr
+      //- Checkbox column
       td
-        input.check-box-item(type="checkbox" name="selectedProducts[]" value=`${item._id}`)
+        input.check-box-item(
+          type="checkbox"
+          name="selectedProducts[]"
+          value=`${item._id}`
+        )
+      
+      //- Index column
       th(scope="row") #{item.index}
+      
+      //- Title column with hierarchical prefix
       td #{prefix} #{item.title}
+      
+      //- Image column
       td
         if item.image
-          img(src=item.image, alt="Product Image", class="w-16 h-16 object-cover rounded-md", width="50", height="50")
+          img(
+            src=item.image
+            alt="Product Image"
+            class="w-16 h-16 object-cover rounded-md"
+            width="50"
+            height="50"
+          )
         else
           span.text-muted Không có hình ảnh
+      
+      //- Price column
       td #{item.price}
+      
+      //- Description column
       td !{item.description}
+      
+      //- Status column (Only if edit permission exists)
+      if (role.permissions.includes("product-category_edit"))
+        td
+          if item.status == "Hoạt động"
+            button.btn.btn-success(
+              btn-change-status
+              data-status=item.status
+              data-id=item.id
+            ) #{item.status}
+          else
+            button.btn.btn-danger(
+              btn-change-status
+              data-status=item.status
+              data-id=item.id
+            ) #{item.status}
+      
+      //- Position input column
       td
-        if item.status == "Hoạt động"
-          button.btn.btn-success(btn-change-status data-status=item.status data-id=item.id) #{item.status}
-        else
-          button.btn.btn-danger(btn-change-status data-status=item.status data-id=item.id) #{item.status}
+        input(
+          type="number"
+          value=item.position
+          style="width: 60px"
+          min="1"
+          name="position"
+        )
+      
+      //- Actions column
       td
-        input(type="number", value=item.position, style="width: 60px", min="1", name="position")
-      td
-        a.btn.btn-secondary.btn-sm(href=`${prefixAdmin}/product-category/details/${item._id}`) Chi Tiết
-        a.btn.btn-primary.btn-sm(href=`${prefixAdmin}/product-category/edit/${item._id}`) Sửa
-        button.btn.btn-danger.btn-sm.ml-2(
-          data-bs-toggle="modal"
-          data-bs-target="#deleteModal"
-          button-delete
-          data-id=`${item._id}`
-          data-name=`${item.name}`
-        ) Xóa
+        a.btn.btn-secondary.btn-sm(
+          href=`${prefixAdmin}/product-category/details/${item._id}`
+        ) Chi Tiết
+
+        if (role.permissions.includes("product-category_edit"))
+          a.btn.btn-primary.btn-sm.ml-2(
+            href=`${prefixAdmin}/product-category/edit/${item._id}`
+          ) Sửa
+        if (role.permissions.includes("product-category_delete"))  
+          button.btn.btn-danger.btn-sm.ml-2(
+            data-bs-toggle="modal"
+            data-bs-target="#deleteModal"
+            button-delete
+            data-id=`${item._id}`
+            data-name=`${item.name}`
+          ) Xóa
+    
+    //- Recursive rendering for children
     if item.children && item.children.length > 0
       +tableTree(item.children, level + 1)

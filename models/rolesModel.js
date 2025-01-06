@@ -8,7 +8,7 @@ const rolesSchema = new Schema(
     {
         title: String,
         description: String,
-        permisstion: {
+        permissions: {
             type: Array,
             default: []
         },

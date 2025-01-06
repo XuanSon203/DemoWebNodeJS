@@ -182,8 +182,6 @@ module.exports.createPost = async (req, res) => {
       req.body.position = parseInt(req.body.position);
     }
 
-
-
     await product.save();
 
     req.flash("success", "Sản phẩm đã được tạo thành công.");

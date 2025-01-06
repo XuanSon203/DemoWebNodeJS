@@ -1,33 +1,61 @@
+// Code Font_end Change check box power
 const tablePermission = document.querySelector("[table-permission]");
-
-const btnSubmit = document.querySelector("[btn-submit]");
-
 if (tablePermission) {
-    let permission = [];
-    const rows = tablePermission.querySelectorAll("[data-name]");
-    btnSubmit.addEventListener('click', (e) => {
+    const btnSubmit = document.querySelector("[btn-submit]");
+    btnSubmit.addEventListener("click", (e) => {
         e.preventDefault();
-        rows.forEach(row => {
+        let permissions = [];
+        const rows = tablePermission.querySelectorAll("[data-name]");
+        rows.forEach((row) => {
             const name = row.getAttribute("data-name");
-            const inputs = tablePermission.querySelectorAll("input");
-            if (name == 'id') {
-                inputs.forEach(input => {
+            const inputs = row.querySelectorAll(
+                "input[type='text'], input[type='checkbox']"
+            );
+            if (name == "id") {
+                inputs.forEach((input) => {
                     const id = input.value;
-                    permission.push({
+                    permissions.push({
                         id: id,
-                        permission: []
+                        permissions: [],
                     });
                 });
-            }else{
-                inputs.forEach((input,index)=>{
+            } else {
+                inputs.forEach((input, index) => {
                     const checked = input.checked;
-                    console.log(`Name":${name}`);
-                    console.log(`Index":${index}`);
-                    console.log(`Trang thai :${checked}`)
-                    permission[index].permission.push(name);
+                    if (checked) {
+                        permissions[index].permissions.push(name);
+                    }
                 });
-            };
+            }
         });
-        console.log(permission)
+        console.log(permissions);
+
+        if (permissions.length > 0) {
+            const formChangePermissions = document.querySelector(
+                "#form-change-permissions"
+            );
+            const inputPermissions = formChangePermissions.querySelector(
+                'input[name="permissions"]'
+            );
+            inputPermissions.value = JSON.stringify(permissions);
+            formChangePermissions.submit();
+        }
     });
-};
+}
+// Permissions data default
+const dataRecords = document.querySelector("[data-records]");
+
+if (dataRecords) {
+    const records = JSON.parse(dataRecords.getAttribute("data-records"));
+    const tablePermission = document.querySelector("[table-permission]");
+    records.forEach((record, index) => {
+        const permissions = record.permissions;
+     
+        permissions.forEach((permissions) => {
+            const row = tablePermission.querySelector(`[data-name="${permissions}"]`);
+            const input = row.querySelectorAll("input")[index];
+            input.checked = true;
+            console.log(permissions);
+        });
+    });
+}

@@ -4,8 +4,12 @@ block main
     div.container.mt-5
         h1.text-center.text-primary Admin Dashboard
         p.text-center.text-muted Chào mừng bạn đến với bảng điều khiển quản trị viên.
-
+       
         //- Thông tin tổng quan
+        div #{user}
+        p ----------------
+        div #{role.title}
+        div #{role.permissions}
         div.row.mt-4
             div.col-md-4
                 div.card.text-white.bg-success.mb-3
