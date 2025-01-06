@@ -1,6 +1,8 @@
 const ProductCategory = require("../../models/productCategoryModels");
 const systemConfig = require("../../config/system");
 const createTreeHelper = require("../../helpers/createTree");
+const Account = require("../../models/account.Models");
+
 module.exports.index = async (req, res) => {
   try {
     let find = {
@@ -10,7 +12,15 @@ module.exports.index = async (req, res) => {
 
     const category = await ProductCategory.find({});
     const newCategory = createTreeHelper.tree(category);
+    for(const item of category){
+      const user = await Account.findOne({
+        _id:item.createdBy.account_id
+      });
 
+      if(user){
+        item.accountFullName = user.fullName;
+      }
+    }
     res.render("admin/page/category/index.pug", {
       category: newCategory
     });
@@ -47,6 +57,10 @@ module.exports.createPost = async (req, res) => {
     } else {
       req.body.position = parseInt(req.body.position, 10);
     }
+    req.body.createdBy = {
+      account_id:res.locals.user.id
+    };
+
     const category = new ProductCategory(req.body);
     await category.save();
 

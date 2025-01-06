@@ -26,6 +26,7 @@ block main
 
       tbody.table-group-divider
         +tableTree(category)
-          form#deleteCourseForm(method="POST" action="" data-path=`${prefixAdmin}/product-category/delete` name="delete-courses-form")
-            input(type="hidden" name="courseId" id="courseId")
-            input(type="hidden" name="courseName" id="courseName")
+          
+        form#deleteCourseForm(method="POST" action="" data-path=`${prefixAdmin}/product-category/delete` name="delete-courses-form")
+          input(type="hidden" name="courseId" id="courseId")
+          input(type="hidden" name="courseName" id="courseName")

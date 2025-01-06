@@ -4,6 +4,7 @@ var methodOverride = require("method-override");
 var bodyParser = require("body-parser");
 require("dotenv").config();
 var path = require("path");
+var moment = require("moment");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 //import file sys tem from config()
@@ -19,6 +20,7 @@ const app = express();
 
 // App local variables
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
+app.locals.moment =moment;
 const port = process.env.PORT || 3000;
 app.use(methodOverride("_method"));
 app.use(cookieParser("keyboard cat"));

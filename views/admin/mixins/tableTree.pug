@@ -80,7 +80,11 @@ mixin tableTree(items, level = 1)
             data-id=`${item._id}`
             data-name=`${item.name}`
           ) Xóa
-    
+      td 
+        p #{item.accountFullName}
+        if(item.createdBy.createdAt)
+          p #{moment(item.createdBy.createdAt).format('YYYY-MM-DD hh:mm:ss')}
+           
     //- Recursive rendering for children
     if item.children && item.children.length > 0
       +tableTree(item.children, level + 1)

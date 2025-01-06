@@ -15,12 +15,25 @@ const productCategorySchema = new Schema(
     status: { type: String, default: "active" },
     image: String,
     deleted: { type: Boolean, default: false},
-    deletedAt: Date,
     slug: {
       type: String,
       slug: "title",
       unique: true,
       slugPaddingSize: 4,
+    },
+    createdBy: {
+      account_id: String,
+      createdAt: {
+        type: Date,
+        default: Date.now
+      }
+    },
+    deletedBy: {
+      account_id: String,
+      createdAt: {
+        type: Date,
+        default: Date.now
+      }
     },
   },
   {
