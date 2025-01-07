@@ -14,27 +14,39 @@ const productCategorySchema = new Schema(
     description: String,
     status: { type: String, default: "active" },
     image: String,
-    deleted: { type: Boolean, default: false},
+    deleted: { type: Boolean, default: false },
     slug: {
       type: String,
       slug: "title",
       unique: true,
       slugPaddingSize: 4,
     },
+    // 
     createdBy: {
       account_id: String,
       createdAt: {
         type: Date,
-        default: Date.now
-      }
+        default: Date.now,
+      },
     },
+    //  lich su xoa 
     deletedBy: {
       account_id: String,
       createdAt: {
         type: Date,
-        default: Date.now
-      }
+        default: Date.now,
+      },
     },
+    // cap nhat lich su sua 
+    updatedBy: [
+      {
+        account_id: String,
+        updatedAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
@@ -42,7 +54,6 @@ const productCategorySchema = new Schema(
 );
 const ProductCategory = mongoose.model(
   "product-category",
-  productCategorySchema,
-
+  productCategorySchema
 );
 module.exports = ProductCategory;

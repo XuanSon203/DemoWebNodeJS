@@ -84,7 +84,14 @@ mixin tableTree(items, level = 1)
         p #{item.accountFullName}
         if(item.createdBy.createdAt)
           p #{moment(item.createdBy.createdAt).format('YYYY-MM-DD hh:mm:ss')}
-           
+      td
+        - const updatedBy = item.updatedBy ? item.updatedBy.slice(-1)[0] : null;
+        if (updatedBy)
+          p #{updatedBy.accountFullName}
+          if (updatedBy.updatedAt)
+            p #{moment(updatedBy.updatedAt).format('YYYY-MM-DD hh:mm:ss')}
+        else
+          p No updates available
     //- Recursive rendering for children
     if item.children && item.children.length > 0
       +tableTree(item.children, level + 1)

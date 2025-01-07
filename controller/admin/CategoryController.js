@@ -7,22 +7,33 @@ module.exports.index = async (req, res) => {
   try {
     let find = {
       deleted: false,
-    }
-
+    };
 
     const category = await ProductCategory.find({});
     const newCategory = createTreeHelper.tree(category);
-    for(const item of category){
+    // lấy thong tin người tạo 
+    for (const item of category) {
       const user = await Account.findOne({
-        _id:item.createdBy.account_id
+        _id: item.createdBy.account_id,
       });
 
-      if(user){
+      if (user) {
         item.accountFullName = user.fullName;
       }
+      // lấy ra thông tin người sửa gần nhất
+      const updatedBy = item.updatedBy.slice(-1)[0];
+      console.log(updatedBy);
+      if (updatedBy) {
+        const userUpdated = await Account.findOne({
+          _id: updatedBy.account_id,
+        })
+        updatedBy.accountFullName = userUpdated.fullName;
+
+      }
+     
     }
     res.render("admin/page/category/index.pug", {
-      category: newCategory
+      category: newCategory,
     });
   } catch (err) {
     console.error("Error retrieving categories:", err.message);
@@ -34,14 +45,12 @@ module.exports.create = async (req, res) => {
       deleted: false,
     };
 
-
-
     const category = await ProductCategory.find(find);
 
     const newCategory = createTreeHelper.tree(category);
     console.log(newCategory);
     res.render("admin/page/category/create.pug", {
-      category: newCategory
+      category: newCategory,
     });
   } catch (err) {
     console.error("Error retrieving categories:", err.message);
@@ -58,7 +67,7 @@ module.exports.createPost = async (req, res) => {
       req.body.position = parseInt(req.body.position, 10);
     }
     req.body.createdBy = {
-      account_id:res.locals.user.id
+      account_id: res.locals.user.id,
     };
 
     const category = new ProductCategory(req.body);
@@ -68,7 +77,7 @@ module.exports.createPost = async (req, res) => {
   } catch (err) {
     console.error("Error creating category:", err.message);
     res.status(500).render("admin/page/error", {
-      error: err.message
+      error: err.message,
     });
   }
 };
@@ -79,36 +88,41 @@ module.exports.edit = async (req, res) => {
 
     let find = {
       _id: id,
-      deleted: false
-    }
+      deleted: false,
+    };
     const data = await ProductCategory.findOne(find);
     const category = await ProductCategory.find({
-      deleted: false
+      deleted: false,
     });
     const newCategory = createTreeHelper.tree(category);
     res.render("admin/page/category/edit", {
       data,
-      category: newCategory
-    })
+      category: newCategory,
+    });
   } catch (err) {
     console.log("ERROR");
     res.redirect("/admin/product-category/");
-
   }
-}
+};
 module.exports.editPatch = async (req, res) => {
   try {
+    const updadtedBy = {
+      account_id: res.locals.user.id,
+      updatedAt: new Date(),
+    };
     const id = req.params.id;
-    // req.body.position = parseInt(req.body.position);
-    // console.log(req.body.position);
-    await ProductCategory.updateOne({
-      _id: id,
-    },
-      req.body);
+    await ProductCategory.updateOne(
+      {
+        _id: id,
+      },
+      // code them lich su sua 
+      {
+        ...req.body,
+        $push: { updadtedBy: updadtedBy },
+      }
+    );
 
-    console.log(req.body)
+    console.log(req.body);
     res.redirect("/admin/product-category/");
-  } catch (err) {
-
-  }
-}
+  } catch (err) { }
+};
