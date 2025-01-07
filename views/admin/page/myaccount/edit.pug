@@ -1,0 +1,38 @@
+extends ../../layout/default.pug
+
+block main
+  h1(class="mb-4") Chỉnh sửa thông tin cá nhân
+
+  form(method="POST" action=`${prefixAdmin}/my_account/edit?_method=PATCH` enctype="multipart/form-data")
+    div.form-group.mb-3
+      label(for="avatar") Ảnh đại diện:
+      if (user.avatar)
+        img(src=user.avatar width="150px" class="mb-3 d-block")
+      else
+        img(src="/admin/images/avatar.png" width="150px" class="mb-3 d-block")
+      input#avatar.form-control(type="file" name="avatar")
+
+    div.form-group.mb-3
+      label(for="fullName") Họ và tên:
+      input#fullName.form-control(type="text" name="fullName" required value=user.fullName)
+
+    div.form-group.mb-3
+      label(for="email") Email:
+      input#email.form-control(type="email" name="email" required value=user.email)
+
+    div.form-group.mb-3
+      label(for="phone") Số điện thoại:
+      input#phone.form-control(type="text" name="phone" value=user.phone)
+    
+    div.form-group.mb-3
+      label(for="password") Mật khẩu :
+      input#password.form-control(type="password" name="password" )
+
+    div.form-group.mb-3
+      label(for="status") Trạng thái:
+      select#status.form-control(name="status")
+        option(value="active" selected=user.status === "active") Hoạt động
+        option(value="inactive" selected=user.status === "inactive") Dừng hoạt động
+
+    button.btn.btn-primary(type="submit") Cập nhật
+    a.btn.btn-secondary(href="/profile") Hủy bỏ

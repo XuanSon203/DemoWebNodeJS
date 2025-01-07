@@ -4,6 +4,7 @@ header.navbar.navbar-dark.bg-dark
         a.navbar-brand(href="#") F8 education
         nav
             ul.nav
+
                 li.nav-item
                     a.nav-link(href=`${prefixAdmin}/dashboard`) Home
                 li.nav-item
@@ -21,10 +22,8 @@ header.navbar.navbar-dark.bg-dark
                             class="rounded-circle me-2", 
                             style="width: 30px; height: 30px; object-fit: cover;"
                         ) 
-                        | 
+                        | #{user.fullName}
                     ul.dropdown-menu
-                        li
-                            a.dropdown-item(href="#") Action
                         
                         if(role.permissions.includes("product-category_view"))
                             li
@@ -33,6 +32,8 @@ header.navbar.navbar-dark.bg-dark
                             a.dropdown-item(href=`${prefixAdmin}/roles`) Danh Sách Nhóm Quyền 
 
                             a.dropdown-item(href=`${prefixAdmin}/roles/permissions`) Phân Quyền 
+                        li
+                                a.dropdown-item(href=`${prefixAdmin}/my_account`) Infomation Account
                         li
                             hr.dropdown-divider
                         li
