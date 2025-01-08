@@ -33,6 +33,14 @@ block main
             label(for="description") Mô tả
             textarea#description(name="description" class="form-control" rows="5" placeholder="Nhập mô tả sản phẩm" ) #{product.description}
         .mb-4
+            label(for="featured") Sản phẩm nổi bật
+            div
+                input#featured_yes(type="radio" name="featured" value="yes" checked=(product.featured == 'yes'))
+                label(for="featured_yes") Có
+            div
+                input#featured_no(type="radio" name="featured" value="no" checked=(product.featured == 'no'))
+                label(for="featured_no") Không
+        .mb-4
             label(for="status") Trạng thái
             select#status(name="status" class="form-control" reqired)
                 option(value="Hoạt động") Hoạt động

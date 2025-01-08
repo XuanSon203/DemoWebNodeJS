@@ -17,7 +17,6 @@ const createTree = (arr, parentId = "") => {
   return tree;
 };
 
-// Expose hàm tạo cây cho module
 module.exports.tree = (arr,parentId="") => {
   count = 0;  
   

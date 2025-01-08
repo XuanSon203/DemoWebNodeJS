@@ -13,6 +13,7 @@ const productSchema = new Schema(
     price: Number,
     description: String,
     status: String,
+    featured: String,
     product_category_id: {
       type: String,
       default: ""

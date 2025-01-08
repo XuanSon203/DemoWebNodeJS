@@ -1,5 +1,6 @@
 extends ../../layout/default.pug
 include ../../mixins/alert.pug
+include ../../mixins/selectTree.pug
 
 block main 
     +alert-error("5000")
@@ -21,13 +22,22 @@ block main
             select#product_category_id(name="product_category_id" class="form-control")
                 option(value=""  selected) Chọn danh mục
                 if category
-                    +selectTree(category,1,data.parent_id)
+                    +selectTree(category,1,parent_id)
         .mb-4
             label(for="price") Giá
             input#price(type="number" name="price" class="form-control" placeholder="Nhập giá" min="0" )
         .mb-4
             label(for="description") Mô tả
             textarea#description(name="description" class="form-control" rows="5" placeholder="Nhập mô tả sản phẩm" )
+        .mb-4
+            label(for="featured") Sản phẩm nổi bật
+            div
+                input#featured_yes(type="radio" name="featured" value="yes")
+                label(for="featured_yes") Có
+            div
+                input#featured_no(type="radio" name="featured" value="no")
+                label(for="featured_no") Không
+
         .mb-4
             label(for="status") Trạng thái
             select#status(name="status" class="form-control" reqired)

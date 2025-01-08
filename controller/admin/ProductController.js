@@ -156,44 +156,43 @@ module.exports.deleteItem = async (req, res) => {
 // Get
 module.exports.create = async (req, res) => {
   try {
-    // Lấy danh mục không bị xóa
-    // const category = await ProductCategory.findOne({
-    //   deleted: false
-    // });
-    // const newCategory = createTreeHelper.tree(category);
-    // console.log(newCategory);
+    const category = await ProductCategory.find({ deleted: false });
 
+    const newCategory = createTreeHelper.tree(category);
     res.render("admin/page/product/create", {
-      // category: newCategory
+      category: newCategory
     });
   } catch (err) {
-    console.error(err);
+    console.error("Error in create controller:", err);
     res.status(500).json({ message: err.message });
   }
 };
 
 // Post
 module.exports.createPost = async (req, res) => {
-  try {
-    if (req.body.position == "") {
-      const countProduct = await Product.countDocuments();
-      req.body.position = countProduct + 1;
-    } else {
-      req.body.position = parseInt(req.body.position);
+  const permissions = res.locals.role.permissions
+  if (permissions.includes('product-category_view')) {
+    try {
+      if (req.body.position == "") {
+        const countProduct = await Product.countDocuments();
+        req.body.position = countProduct + 1;
+      } else {
+        req.body.position = parseInt(req.body.position);
+      }
+      const product = new Product(req.body)
+      await product.save();
+
+      req.flash("success", "Sản phẩm đã được tạo thành công.");
+      res.redirect(`/admin/product`);
+    } catch (err) {
+      console.error(err);
+      req.flash("error", "Có lỗi xảy ra khi tạo sản phẩm.");
+      res.status(500).render("admin/page/error", { error: err.message });
     }
-
-    await product.save();
-
-    req.flash("success", "Sản phẩm đã được tạo thành công.");
-    res.redirect(`${systemConfig.prefixAdmin}/product`, {
-
-    });
-  } catch (err) {
-    console.error(err);
-    // Trả lỗi nếu có vấn đề xảy ra trong quá trình lưu
-    req.flash("error", "Có lỗi xảy ra khi tạo sản phẩm.");
-    res.status(500).render("admin/page/error", { error: err.message });
+  } else {
+    return;
   }
+
 };
 module.exports.edit = async (req, res, next) => {
   try {
@@ -214,6 +213,7 @@ module.exports.edit = async (req, res, next) => {
 };
 // Edit Patch
 module.exports.editPatch = async (req, res) => {
+  if (permissions.includes('product-category_edit')) {
   try {
 
     const product = await Product.updateOne(
@@ -230,6 +230,8 @@ module.exports.editPatch = async (req, res) => {
     next();
   } catch (err) {
     req.flash("error", "Có lỗi xảy ra khi cập nhật sản phẩm.");
+  }}else{
+    return;
   }
 };
 module.exports.details = async (req, res, next) => {
