@@ -1,0 +1,60 @@
+/* Đảm bảo menu chính và menu con có thể hiển thị */
+.nav-item.dropdown:hover .dropdown-menu {
+    visibility: visible; /* Dùng visibility thay vì display để menu con không mất đi */
+    opacity: 1; /* Đảm bảo menu con có thể nhìn thấy */
+    transition: opacity 0.3s ease; /* Thêm hiệu ứng mượt mà khi hiển thị */
+  }
+  
+  /* Ẩn menu con theo mặc định */
+  .dropdown-menu {
+    visibility: hidden; /* Ẩn menu con mặc định */
+    opacity: 0; /* Đảm bảo menu con không hiển thị */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    background-color: #343a40;
+    border-radius: 0.25rem;
+    transition: opacity 0.3s ease; /* Thêm hiệu ứng mượt mà khi ẩn */
+  }
+  
+  /* Menu con (submenu) */
+  .sub-menu {
+    position: absolute;
+    top: 0;
+    right: 100%; 
+    transition: opacity 0.3s ease; 
+  }
+  
+  /* Các mục trong menu */
+  .dropdown-item {
+    padding: 0.375rem 1rem;
+    color: #1f1919;
+    text-decoration: none;
+  }
+  
+  /* Hiệu ứng hover cho mục menu */
+  .dropdown-item:hover {
+    background-color: #007bff;
+  }
+  
+  /* Mục con trong submenu */
+  .sub-menu .dropdown-item {
+    padding-left: 2rem;
+  }
+  
+  /* Hiển thị submenu khi hover vào mục cha */
+  .dropdown-item:hover + .sub-menu {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  /* Hiển thị submenu khi hover vào mục cha trong menu con */
+  .dropdown-item:hover > .sub-menu {
+    visibility: visible;
+    opacity: 1;
+  }
+  

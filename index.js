@@ -11,6 +11,7 @@ const session = require("express-session");
 const systemConfig = require("./config/system");
 // import file connect Database from File config();
 const database = require("./config/connect_data");
+const router = require('./router/client/index.router');
 // import file Router Admin and Client from router
 const routerAdmin = require("./router/admin/index_router");
 // Call back function connect() to connect Database
@@ -39,6 +40,7 @@ app.use(
 
 // Router
 routerAdmin(app);
+router(app)
 
 app.listen(port, () => {
   console.log(`Server is running on port${port} `);
